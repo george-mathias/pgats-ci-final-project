@@ -33,4 +33,4 @@ jobs:
         
       - name: Publicar Relatório de Testes
         if: always()
-        run: npx github-actions-ctrf mochawesome-report/mochawesome.json
+        run: npx github-actions-ctrf ctrf/ctrf-report.json
