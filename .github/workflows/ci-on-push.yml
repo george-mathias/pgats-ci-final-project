@@ -32,7 +32,5 @@ jobs:
           retention-days: 7
         
       - name: Publicar Relatório de Testes
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        run: npx github-actions-ctrf mochawesome-report/mochawesome.json
         if: always()
-        with:
-          files: mochawesome.html
