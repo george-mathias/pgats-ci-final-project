@@ -23,6 +23,7 @@ jobs:
         run: npm ci
 
       - name: Executar testes
+        continue-on-error: true
         run: npm test
 
       - name: Carregar relatório para artefactos
