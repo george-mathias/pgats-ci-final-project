@@ -32,5 +32,7 @@ jobs:
           retention-days: 7
         
       - name: Publicar Relatório de Testes
-        run: npx github-actions-ctrf mochawesome-report/mochawesome.json
         if: always()
+        run: |
+          npx mochawesome-to-ctrf mochawesome-report/mochawesome.json
+          npx github-actions-ctrf ctrf/ctrf-report.json
