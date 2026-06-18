@@ -1,2 +1,5 @@
 # Dependências
 /node_modules
+
+# Relatórios de testes
+/mochawesome-report
