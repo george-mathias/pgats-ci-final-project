@@ -30,3 +30,9 @@ jobs:
           name: test-reports
           path: mochawesome-report/
           retention-days: 7
+        
+      - name: Publicar Relatório de Testes
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: mochawesome.html
