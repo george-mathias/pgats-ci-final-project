@@ -1,77 +1,102 @@
 # Pipeline CI com GitHub Actions - Mocha
 
-Este projecto implementa uma pipeline de integração contínua utilizando GitHub Actions para execução de testes com Mocha.
+Este projeto implementa uma pipeline de integração contínua utilizando **GitHub Actions** para execução de testes automatizados com **Mocha**,  
+contemplando três modos de execução: por push, manual e agendada, com geração e publicação de relatórios de testes.
+
+
+## Dependências
+
+| Pacote | Versão | Descrição |
+|--------|--------|-----------|
+| Git | ^2.52.0 | Versionamento de código |
+| Node.js | >= 24.x | Ambiente de execução JavaScript |
+| mocha | ^11.7.6 | Framework de teste JavaScript |
+| GitHub Test Reporter | ~0.0.11 | Gerador de relatórios JSON para Mocha |
+
+
+## Instalação
+
+1. Instale o [git](https://git-scm.com)
+2. Instale o [nodejs](https://nodejs.org/)
+3. Faça o download do projeto
+   ```
+   git clone https://github.com/george-mathias/pgats-ci-final-project.git
+   ```
+4. Entre na pasta do projeto
+   ```shell
+   pgats-ci-final-project
+   ```
+4. Instale as dependências
+   ```shell
+   npm install
+   ```
+5. Execute os testes
+   ```nodejs
+   npx mocha
+   ```
+
 
 ## Funcionalidades Implementadas
 
 ### 1. **Execução por Push**
-- Arquivo: `.github/workflows/ci-on-push.yml`
-- Os testes são executados automaticamente sempre que há um push na branch `main`
-- Relatórios são gerados e armazenados como artefactos
+Os testes são executados automaticamente sempre que há um push na branch `main`.
 
 ### 2. **Execução Manual**
-- Arquivo: `.github/workflows/ci-manual.yml`
-- O workflow pode ser disparado manualmente através do botão "Run workflow" na Actions tab
-- Opção para gerar relatório de cobertura adicional
+O workflow pode ser disparado manualmente através do botão "Run workflow" na aba Actions do GitHub.
 
-### 3. **Execução Agendada (Cron)**
-- Arquivo: `.github/workflows/ci-scheduled.yml`
-- O pipeline roda automaticamente diariamente às 02:00 horas
-- Cron expression: `0 2 * * *`
-- Também permite disparo manual para teste
+### 3. **Execução Agendada (Schedule)**
+O pipeline roda automaticamente diariamente às 05:00 horas.
 
 ### 4. **Geração de Relatório de Testes**
-- Relatório HTML em `mochawesome-report/index.html`
-- Relatório armazenado como artefacto no GitHub Actions
+Relatórios JSON de testes são gerados e armazenados como artefactos na pipeline.
 
-### 5. **Armazenamento/Publicação do Relatório**
-- Relatórios armazenados como artefactos na Actions do GitHub
-- Retenção de 7 dias para relatórios de testes
+### 5. **Publicação do Relatório**
+Relatórios armazenados como artefactos na Actions do GitHub, com retenção de 7 dias.
 
-## Relatórios Gerados
 
-| Tipo | Formato | Localização |
-|------|---------|-----|
-| HTML | mochawesome-report/index.html | `mochawesome-report/` |
+## Relatórios
 
-## Instalação
+- Acesse a aba **[Actions](https://github.com/george-mathias/pgats-ci-final-project/actions)** no GitHub
+- Selecione o workflow desejado
+- Seleicone uma execução para visualizar o reslatório
+- Relatório disponível para download **ctrf-report.json**
 
-```bash
-npm install
-```
 
-## Execução de Testes Localmente
+## Estrutura dos Workflows
 
-```bash
-# Executar todos os testes
-npm test
+O projeto utiliza **três workflows separados**, cada um com suas obrigações:
 
-# Ver o relatório HTML
-start coverage/mochawesome-report/index.html
-```
+### Workflow 1: [CI - Execução por Push](https://github.com/george-mathias/pgats-ci-final-project/actions/workflows/ci-on-push.yml)
+- **Arquivo:** `.github/workflows/ci-on-push.yml`
+- **Gatilho:** Push na branch `main`  
+- **Funcionalidade:** Execução automática de testes após cada commit
+- **Commit vazio para executar o workflow:** git commit --allow-empty -m "ci: disparo do workflow por push"
 
-## Workflow de CI
+### Workflow 2: [CI - Execução Manual](https://github.com/george-mathias/pgats-ci-final-project/actions/workflows/ci-manual.yml)
+- **Arquivo:** `.github/workflows/ci-manual.yml`
+- **Gatilho:** Botão "Run workflow" na aba Actions
+- **Funcionalidade:** Permite executar testes manualmente sob demanda
 
-Os workflows são divididos em três arquivos separados:
+### Workflow 3: [CI - Execução Agendada](https://github.com/george-mathias/pgats-ci-final-project/actions/workflows/ci-scheduled.yml)
+- **Arquivo:** `.github/workflows/ci-scheduled.yml`
+- **Gatilho:** Cron expression `0 5 * * *` (todas as 05:00)
+- **Funcionalidade:** Execução agendada automática de testes (com a possibilidade de ser executada manualmente)
 
-| Arquivo | Descrição | Gatilho |
-|---------|-----------|---------|
-| `ci-on-push.yml` | Execução automática ao fazer push | Push na branch `main` |
-| `ci-manual.yml` | Execução manual com opções | Botão "Run workflow" |
-| `ci-scheduled.yml` | Execução agendada | Cron (02:00 diariamente) |
 
-## Visualizar Relatórios
+## Conceitos Utilizados e Links Úteis
 
-- Aceda a **GitHub Actions** para ver os relatórios
-- Artfactos são retidos por **7 dias**
-- Links para artefactos: `https://github.com/<user>/<repo>/actions`
+### [GitHub Actions](https://docs.github.com/en/actions)
+- **Actions:** Fluxos de trabalho automatizados no GitHub
+- **Workflows:** Conjuntos de ações que executam em sequência
+- **Triggers:** Gatilhos que iniciam os workflows (push, schedule, manual)
+- **Artifacts:** Arquivos gerados durante a execução e armazenados para download
 
-## Links Úteis
+### [GitHub Test Reporter](https://github.com/marketplace/actions/github-test-reporter)
+- Ação que gera relatórios HTML de testes
+- Integração com frameworks de teste como Mocha, Jest, Karma
+- Publicação de relatórios diretamente na UI do GitHub
 
-- [GitHub Actions Docs](https://docs.github.com/en/actions)
-- [Mocha Documentation](https://mochajs.org/)
-- [Mochawesome Reporter](https://github.com/mochajs/mochawesome)
-
-## Licença
-
-Este projecto está sob a licença MIT.
+### [Mocha Documentation](https://mochajs.org/)
+- Framework de teste JavaScript
+- Suporte a async/await, beforeEach, afterEach
+- Múltiplos reporters (JUnit, HTML, JSON, etc.)
