@@ -1,0 +1,37 @@
+name: CI - Execução Agendada
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch: # Permite disparo manual
+
+jobs:
+  run-tests:
+    name: Executar Testes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Carregar relatório para artefactos
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: ctrf/
+          retention-days: 7
+        
+      - name: Publicar Relatório de Testes
+        if: always()
+        run: npx github-actions-ctrf ctrf/ctrf-report.json
