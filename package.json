@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "mocha": "^11.7.6",
-    "mocha-ctrf-json-reporter": "^0.0.11",
-    "mochawesome-report-generator": "^6.2.4"
+    "mocha-ctrf-json-reporter": "^0.0.11"
   }
 }
